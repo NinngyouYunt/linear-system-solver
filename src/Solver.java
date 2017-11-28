@@ -37,10 +37,8 @@ public class Solver {
 		Matrix C = new Matrix(constantsArr);
 		Matrix MA = new Matrix(arrMA);
 		Matrix MB = new Matrix(arrMB);
-//		System.out.println(MA.calculationWithMatrix(MB, '*'));
-//		System.out.println(A);
-		inverseSolver(A, C);
-//		System.out.println(A.getDeterminant());
+		System.out.println(decimalPlaces(0));
+//		inverseSolver(A, C);
 	}
 	
 	public static void solver(Matrix coeffs, Matrix constants){
@@ -78,7 +76,12 @@ public class Solver {
 		return true;
 	}
 	
-	
+	public static int decimalPlaces(double n){
+		String str = n+"";
+		str = str.substring(str.indexOf('.')+1);
+		if (str.equals("0")) return 0;
+		return str.length();
+	}
 	// 1. Reduce duplicated row
 	// 2. m<n? (true - parametric solver)
 	// 3. m>n? (true - no solution)
@@ -88,5 +91,6 @@ public class Solver {
 	
 	public static void parametricSolver(Matrix coeffs, Matrix constants){
 		Matrix A = Matrix.join(coeffs, constants);
+		
 	}
 }

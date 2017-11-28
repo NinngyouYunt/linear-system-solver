@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class Matrix {
 	
@@ -69,7 +68,7 @@ public class Matrix {
 	public int getColNum(){
 		return n;
 	}
-	public double[] getRow(int n){
+	private double[] getRow(int n){
 		return elements[n];
 	}
 	
@@ -272,6 +271,7 @@ public class Matrix {
 		}
 		return new Matrix(1,1);
 	}
+	// used for removeDuplication
 	private static boolean compareRow(double[] a, double[] b){
 		if (a.length!=b.length) return false;
 		for (int i=0;i<a.length;i++){
@@ -301,6 +301,55 @@ public class Matrix {
 	 * @return
 	 */
 	public Matrix getRef(){
+		Matrix A = new Matrix(1,1);
+		A.copy(this);
+		
+		A.getElementAt(i, j)
 		return this;
+	}
+	// Elementary Row Operation used for getRef
+	/**
+	 * Add/subtract the result to another row
+	 * addition == true to adding, adding == false to subtraction
+	 * add row at from into the row at to after applying the multiplier
+	 * Change the calling matrix
+	 * @param from
+	 * @param fromMultiplier
+	 * @param to
+	 * @param toMultiplier
+	 * @param addition true for +, false for -
+	 */
+	private void addRow(int from, double fromScalar, int to, double toScalar, boolean addition){
+		int sign=addition?1:-1;
+		for(int j=0;j<n;j++){
+			elements[to][j] = elements[to][j]*(toScalar==0?1:toScalar) + sign*elements[from][j]*(fromScalar==0?1:fromScalar);
+		}
+	}
+	/**
+	 * swap two rows
+	 * @param r1
+	 * @param r2
+	 */
+	private void swap(int r1, int r2){
+		double temp;
+		for(int j=0;j<n;j++){
+			temp = elements[r1][j];
+			elements[r1][j] = elements[r2][j];
+			elements[r2][j] = temp;
+		}
+	}
+	/**
+	 * Multiply/divide a row by a scalar
+	 * @param row
+	 * @param scalar
+	 * @param multiplication true for *, false for /
+	 */
+	private void rowMultiplyScalar(int row, double scalar, boolean multiplication){
+		for (int j=0;j<n;j++){
+			if (multiplication)
+				elements[row][j] = elements[row][j] * (scalar==0?1:scalar);
+			else
+				elements[row][j] = elements[row][j] / (scalar==0?1:scalar);
+		}
 	}
 }
